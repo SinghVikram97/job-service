@@ -56,6 +56,11 @@ public class JobServiceImpl implements JobService {
     public JobDTO updateJob(Long id, JobDTO jobDto) {
         JobEntity job = getJobOrThrowException(id);
 
+        // Check validity of companyId
+        Long companyId = jobDto.getCompanyId();
+        companyServiceDelegate.getCompanyById(companyId);
+
+        // If valid company
         job.setTitle(jobDto.getTitle());
         job.setDescription(jobDto.getDescription());
         job.setMaxSalary(jobDto.getMaxSalary());
