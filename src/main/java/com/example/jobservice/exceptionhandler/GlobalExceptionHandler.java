@@ -1,5 +1,6 @@
 package com.example.jobservice.exceptionhandler;
 
+import com.example.jobservice.exception.DownstreamServiceException;
 import com.example.jobservice.exception.ErrorResponse;
 import com.example.jobservice.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -38,4 +39,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(DownstreamServiceException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErrorResponse> handleDownstreamServiceException(DownstreamServiceException downstreamServiceException) {
+        ErrorResponse response = new ErrorResponse(
+                downstreamServiceException.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

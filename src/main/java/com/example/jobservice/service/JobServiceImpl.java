@@ -1,14 +1,17 @@
 package com.example.jobservice.service;
 
+import com.example.jobservice.delegate.CompanyServiceDelegate;
 import com.example.jobservice.dto.JobDTO;
 import com.example.jobservice.entity.JobEntity;
 import com.example.jobservice.exception.ResourceNotFoundException;
 import com.example.jobservice.mapper.ModelMapper;
+import com.example.jobservice.model.Company;
 import com.example.jobservice.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
     private final ModelMapper mapper;
+    private final CompanyServiceDelegate companyServiceDelegate;
 
     @Override
     public List<JobDTO> getAllJobs() {
@@ -31,6 +35,11 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobDTO createJob(JobDTO jobDto) {
+        // Check validity of companyId
+        Long companyId = jobDto.getCompanyId();
+        companyServiceDelegate.getCompanyById(companyId);
+
+        // If valid company
         JobEntity job = mapper.mapJobDtoToJob(jobDto);
         JobEntity savedJob = jobRepository.save(job);
         return mapper.mapJobToJobDto(savedJob);
