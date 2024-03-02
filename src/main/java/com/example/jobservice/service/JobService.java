@@ -13,4 +13,7 @@ public interface JobService {
     JobDTO deleteJob(Long id);
 
     JobDTO updateJob(Long id, JobDTO jobDto);
+
+    // Get all jobs for a company
+    List<JobDTO> getAllJobsByCompany(Long companyId);
 }

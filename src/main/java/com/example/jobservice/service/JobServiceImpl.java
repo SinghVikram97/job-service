@@ -71,6 +71,13 @@ public class JobServiceImpl implements JobService {
         return mapper.mapJobToJobDto(savedJob);
     }
 
+    @Override
+    public List<JobDTO> getAllJobsByCompany(Long companyId) {
+        // We can skip validating companyId since if invalid companyId there would be zero jobs
+        List<JobEntity> jobEntityList = jobRepository.findByCompanyId(companyId);
+        return jobEntityList.stream().map(mapper::mapJobToJobDto).collect(Collectors.toList());
+    }
+
     private JobEntity getJobOrThrowException(Long id){
         return jobRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Job", "Id", id));
     }

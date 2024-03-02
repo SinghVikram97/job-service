@@ -42,5 +42,11 @@ public class JobController {
     public ResponseEntity<JobDTO> updateJob(@PathVariable Long id, @RequestBody @Valid JobDTO jobDto){
         return new ResponseEntity<>(jobService.updateJob(id, jobDto), HttpStatus.OK);
     }
+
+    @GetMapping("/company")
+    public ResponseEntity<List<JobDTO>> getAllJobsByCompany(@RequestParam("company_id") Long companyId){
+        List<JobDTO> allJobsByCompany = jobService.getAllJobsByCompany(companyId);
+        return new ResponseEntity<>(allJobsByCompany, HttpStatus.OK);
+    }
 }
 
