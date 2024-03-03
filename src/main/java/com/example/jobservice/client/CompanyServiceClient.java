@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "${company.service.name}", url = "${company.service.url}")
+@FeignClient(name = "${company.service.name}")
 public interface CompanyServiceClient {
 
     @GetMapping("${company.service.basepath}/{companyId}")
