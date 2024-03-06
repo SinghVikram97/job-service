@@ -9,6 +9,7 @@ import com.example.jobservice.model.Company;
 import com.example.jobservice.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -76,6 +77,12 @@ public class JobServiceImpl implements JobService {
         // We can skip validating companyId since if invalid companyId there would be zero jobs
         List<JobEntity> jobEntityList = jobRepository.findByCompanyId(companyId);
         return jobEntityList.stream().map(mapper::mapJobToJobDto).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteJobsByCompany(Long companyId) {
+        jobRepository.deleteByCompanyId(companyId);
     }
 
     private JobEntity getJobOrThrowException(Long id){

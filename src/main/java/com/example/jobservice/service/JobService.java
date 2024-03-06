@@ -16,4 +16,6 @@ public interface JobService {
 
     // Get all jobs for a company
     List<JobDTO> getAllJobsByCompany(Long companyId);
+
+    void deleteJobsByCompany(Long companyId);
 }
