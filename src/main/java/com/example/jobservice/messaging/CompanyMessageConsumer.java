@@ -14,4 +14,12 @@ public class CompanyMessageConsumer {
     public void consumeMessage(CompanyMessage companyMessage) {
         logger.info("Message received with companyId: {}",companyMessage.getCompanyId());
     }
+
+    // Consumer for DLQ
+    @RabbitListener(queues = "q.delete-jobs-dlq")
+    public void consumeMessageFromDLQ(CompanyMessage companyMessage) {
+        // For demonstrating use of DLQ
+        // We examine the errors in messages/handling, after the fixing issues we move messages from DLQ to main queue
+        logger.info("Message received from DLQ with companyId: {}",companyMessage.getCompanyId());
+    }
 }
